@@ -33,9 +33,11 @@ export default function Header() {
                 <FaMoon/>
             </Button>
             <Link to='/sign-in'>
-                <Button color='gray' gradientDuoTone='purpleToBlue'>
-                    Sign In
-                </Button>
+                <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-400 via-purple-500 to-pink-400 group-hover:from-purple-400 group-hover:via-purple-500 group-hover:to-pink-400 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800">
+                    <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                        Sign In
+                    </span>
+                </button>
             </Link>
             <NavbarToggle/>
         </div>
