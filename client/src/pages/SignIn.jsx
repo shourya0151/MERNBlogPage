@@ -2,13 +2,21 @@ import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import React from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import { useState } from 'react';//use navigate to route user to sigin page or any other page
+//using redux tool kit  instead of react state
+
+import { useDispatch,useSelector } from 'react-redux';
+import { SignInStart, SignInFailure, SignInSuccess } from '../redux/user/userSlice';
+
 
 
 export default function Signin() {
+  //initialize dispatch
+  const dispatch = useDispatch();
+  const { loading, error: errorMessage } = useSelector(state => state.user);
   //create state 
   const [formData,setFormData] = useState({});
-  const [errorMessage,setErrorMessage] = useState(null);
-  const [loading,setLoading] = useState(false);
+  // const [errorMessage,setErrorMessage] = useState(null);
+  // const [loading,setLoading] = useState(false);
   const navigate = useNavigate();
   
 
@@ -27,11 +35,12 @@ export default function Signin() {
     if(!formData.email || 
        !formData.password)
     {
-      return setErrorMessage('Please fill out all fields.');
+      return dispatch(SignInFailure("Please fill out all the fields."));
     }
     try{
-      setLoading(true);
-      setErrorMessage(null);
+      dispatch(SignInStart());
+      // setLoading(true);
+      // setErrorMessage(null);//insead of use react redux
       //inorder to avpid writing localhost 300 use proxy in 
       //in vit.config.js
       //
@@ -42,17 +51,20 @@ export default function Signin() {
       });
       const data = await res.json();
       if(data.success === false){
-        setLoading(false);
-        return setErrorMessage("Email or password entered is wrong!")
+        dispatch(SignInFailure(data.message));
+        // setLoading(false);
+        // return setErrorMessage("Email or password entered is wrong!")
       }
-      setLoading(false);
+      //setLoading(false);
       if(res.ok){
+        dispatch(SignInSuccess(data));
         navigate('/');
       }
       
     }catch(err){
-      setErrorMessage(err.message);
-      setLoading(false);
+      dispatch(SignInFailure(err.message));
+      // setErrorMessage(err.message);
+      // setLoading(false);
     }
   }
 
