@@ -6,7 +6,7 @@ import { useState } from 'react';//use navigate to route user to sigin page or a
 
 import { useDispatch,useSelector } from 'react-redux';
 import { SignInStart, SignInFailure, SignInSuccess } from '../redux/user/userSlice';
-
+import OAuth  from '../components/oAuth'
 
 
 export default function Signin() {
@@ -114,9 +114,9 @@ export default function Signin() {
                     <span>Loading...</span>
                   </>
                 ): 'Sign In'
-              }  
+              }
             </Button>
-            
+            <OAuth />
           </form>
           <div className='flex gap-2 text-sm mt-5'>
             <span>Dont't have an account?</span>
