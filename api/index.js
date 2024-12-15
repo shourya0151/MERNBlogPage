@@ -1,9 +1,9 @@
-import express, { json } from 'express';
+import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js'
-
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -19,8 +19,14 @@ dotenv.config();
 
 const app = express();
 
+
+
+
 //ALLOW JSON TO SEND IN RESPONSE
 app.use(express.json());
+
+//cookie parser
+app.use(cookieParser());
 
 app.listen(3000,()=>{
     console.log("Server is running on port 3000");
