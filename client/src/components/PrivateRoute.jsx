@@ -9,5 +9,4 @@ export default function PrivateRoute() {
 
     return currentUser ? <Outlet/> : <Navigate to="/sign-in" />
 
-  
 }

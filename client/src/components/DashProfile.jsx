@@ -16,7 +16,8 @@ import { updateStart,
         updateFailure,
         deleteUserFailure,
         deleteUserStart,
-        deleteUserSuccess } from '../redux/user/userSlice';
+        deleteUserSuccess,
+        signoutUserSuccess } from '../redux/user/userSlice';
 
 
 export default function DashProfile() {
@@ -109,7 +110,7 @@ export default function DashProfile() {
         }
         try{
             dispatch(updateStart());
-            const res = await fetch(`api/user/update/${currentUser._id}`,{
+            const res = await fetch(`/api/user/update/${currentUser._id}`,{
                 method: 'PUT',
                 headers:{
                     'Content-Type': 'application/json',
@@ -136,8 +137,8 @@ export default function DashProfile() {
         setshowModel(false);
         try{
             dispatch(deleteUserStart());
-            const res = await fetch(`api/user/delete/${currentUser._id}`,{
-                method: 'DELETE',
+            const res = await fetch(`/api/user/delete/${currentUser._id}`,{
+                method: 'POST',
             });
             const data = await res.json();
             if(res != ok){
@@ -147,6 +148,24 @@ export default function DashProfile() {
             dispatch(deleteUserFailure(err.message));
         }
     };
+
+    const handleSignOut = async () => {
+        try{
+            const res = await fetch("/api/user/signout",{
+                method: 'POST',
+            });
+
+            if(!res.ok){
+                console.log(data.message);
+            }
+            else{
+                dispatch(signoutUserSuccess());
+            }
+
+        }catch(err){
+            console.log(err.message);
+        }
+    }
 
 
   return (
@@ -225,7 +244,7 @@ export default function DashProfile() {
 
             <div className='flex justify-between text-red-500 mt-5'>
                 <span onClick={()=>setshowModel(true)} className='cursor-pointer'>Delete Account</span>
-                <span className='cursor-pointer'>Sign Out</span>
+                <span className='cursor-pointer' onClick={handleSignOut}>Sign Out</span>
             </div>
             {updateUserSuccess && (
                 <Alert color='success' className='mt-5'>

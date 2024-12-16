@@ -6,6 +6,8 @@ import { FaMoon,FaSun } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux';
 import { toggleTheme } from '../redux/theme/themeSlice';
+import { signoutUserSuccess } from '../redux/user/userSlice';
+
 
 
 
@@ -17,7 +19,23 @@ export default function Header() {
     const { theme } = useSelector((state) => state.theme);
     
 
-   
+    const handleSignOut = async () => {
+        try{
+            const res = await fetch("/api/user/signout",{
+                method: 'POST',
+            });
+
+            if(!res.ok){
+                console.log(data.message);
+            }
+            else{
+                dispatch(signoutUserSuccess());
+            }
+
+        }catch(err){
+            console.log(err.message);
+        }
+    }
     
 
   return (
@@ -66,7 +84,7 @@ export default function Header() {
                         <Dropdown.Item>Profile</Dropdown.Item>
                     </Link>
                     <Dropdown.Divider></Dropdown.Divider>
-                    <Dropdown.Item>SignOut</Dropdown.Item>
+                    <Dropdown.Item onClick={handleSignOut}>SignOut</Dropdown.Item>
 
                 </Dropdown>
             ):
