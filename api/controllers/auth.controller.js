@@ -59,7 +59,7 @@ export const signin = async(req,res,next)=>{
             return next(errorHandler(400,'Inavlid userName or password'));
         }
 
-        const token = jwt.sign({ id: validUser._id }, process.env.SECRET_KEY, {
+        const token = jwt.sign({ id: validUser._id, isAdmin: validUser.isAdmin}, process.env.SECRET_KEY, {
             expiresIn: '1h',
         });
 
@@ -85,7 +85,7 @@ export const googleAuth = async (req,res,next)=>{
         const user = await User.findOne({email});
         if(user){
             //now sue jwt token
-            const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
+            const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin  }, process.env.SECRET_KEY, {
                 expiresIn: '1h',
             });
             const {password, ...rest} = user._doc;
@@ -110,7 +110,7 @@ export const googleAuth = async (req,res,next)=>{
             try{
                 await newUser.save();
 
-                const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
+                const token = jwt.sign({ id: user._id,isAdmin: user.isAdmin }, process.env.SECRET_KEY, {
                     expiresIn: '1h',
                 });
                 const {password, ...rest} = user._doc;

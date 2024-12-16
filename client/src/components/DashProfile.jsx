@@ -2,6 +2,7 @@ import { Alert, Button, TextInput, Modal } from 'flowbite-react';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Link } from 'react-router-dom'
 import { getStorage, 
         ref, 
         uploadBytesResumable, 
@@ -239,6 +240,23 @@ export default function DashProfile() {
                 <Button type='submit' gradientDuoTone='purpleToBlue' outline>
                     Update
                 </Button>
+
+                {
+                    currentUser.isAdmin && (
+                        <Link to={'/create-post'}>
+                            <Button
+                                type='button'
+                                gradientDuoTone='purpleToPink'
+                                className='w-full'
+                            >
+                                Create a Post
+                            </Button>
+                        </Link>
+                        
+                    )
+                }
+
+
             </form>
 
 
